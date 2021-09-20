@@ -31,10 +31,6 @@ class OtterClient(discord.Client):
             await message.channel.send(embed=embed, reference=message)
 
 
-def remove_duplicates(lst):
-    return list(dict.fromkeys(lst))
-
-
 def main():
     load_dotenv()
     token = os.getenv('DISCORD_TOKEN')
