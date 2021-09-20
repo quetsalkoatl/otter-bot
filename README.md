@@ -1,10 +1,10 @@
-###Dependencies
+### Dependencies
 
 ```
 pip install python-dotenv discord.py
 ```
 
-###.env
+### .env
 
 ```
 DISCORD_TOKEN=xyz
