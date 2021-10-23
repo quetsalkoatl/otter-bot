@@ -1,6 +1,6 @@
 ### Dependencies
 ```
-pip install python-dotenv discord.py pywin32
+pip install python-dotenv discord.py
 ```
 
 ### .env
@@ -9,11 +9,8 @@ pip install python-dotenv discord.py pywin32
 DISCORD_TOKEN=xyz
 ```
 
-### register as windows service
-download nssm (https://nssm.cc/download)
-```
-nssm install OtterBotService 'C:\Program Files\Python39\python.exe' C:\otter-bot\win_service.py
-```
+### register as linux service
+...
 
 ### create bot
 1. goto https://discord.com/developers/applications
