@@ -12,12 +12,36 @@ class OtterClient(discord.Client):
 
     # add more links to otter gifs to this list
     OTTER_LIST = [
-        'https://media0.giphy.com/media/1xlGfZ07Dq62jqKT9t/giphy.gif',
-        'https://media0.giphy.com/media/26gssIytJvy1b1THO/giphy.gif',
-        'https://gifimage.net/wp-content/uploads/2017/06/otter-gif-5.gif',
-        'https://66.media.tumblr.com/ed029e03114cbe9b96df28b75c344630/tumblr_okunffDlnm1w0433po1_500.gif',
-        'https://media0.giphy.com/media/pDt9e4dO0BYWI/giphy.gif',
-        'https://media4.giphy.com/media/26vUGO8U52XTg6vfO/giphy.gif'
+        'https://c.tenor.com/cKK0e-SsvJQAAAAC/baby-otter-walrus.gif',
+        'https://c.tenor.com/u26WgBEeNAYAAAAC/otter-belly.gif',
+        'https://c.tenor.com/yQoWMMW1uLAAAAAC/otter-otters.gif',
+        'https://c.tenor.com/EAch1-Fo_o4AAAAM/sea-otter.gif',
+        'https://c.tenor.com/spuQWl7xuKAAAAAM/otter-eating-salad-%D0%B2%D1%8B%D0%B4%D1%80%D0%B0.gif',
+        'https://c.tenor.com/dBg-utCpYi0AAAAM/otter-cat.gif',
+        'https://c.tenor.com/AV2JwtXcUJwAAAAM/otter-roll-otter.gif',
+        'https://c.tenor.com/750REFSTyWkAAAAC/otters-sea.gif',
+        'https://c.tenor.com/zao2byCy-ZQAAAAd/hanna-otter.gif',
+        'https://c.tenor.com/_r0XOi3cyYsAAAAC/ottern-sucktea.gif',
+        'https://c.tenor.com/TXNjBACtFyUAAAAM/otter-spin-otter-play.gif',
+        'https://c.tenor.com/XhKhN5nQxFgAAAAM/sakthi-otter.gif',
+        'https://c.tenor.com/LI6NWAXF_RoAAAAC/pfsf1968-otter.gif',
+        'https://c.tenor.com/1G3ha3W56EwAAAAM/otter-sakthi.gif',
+        'https://c.tenor.com/8djzFtDG_J0AAAAC/otter-slam-dunk.gif',
+        'https://c.tenor.com/oszRqKDCW6cAAAAM/otter-cute.gif',
+        'https://c.tenor.com/GV93UFvN98MAAAAC/clapping-otter.gif',
+        'https://c.tenor.com/VRYGG3dt3CsAAAAM/sucktea-otter.gif',
+        'https://c.tenor.com/jhY3tyYIFcQAAAAM/biting-smartphone-otter.gif',
+        'https://c.tenor.com/bgPaizT7YVQAAAAd/otter-cute.gif',
+        'https://c.tenor.com/4GmyiIELWcMAAAAM/otter-kitty.gif',
+        'https://c.tenor.com/7BjQG3JtOYMAAAAM/otter-otters.gif',
+        'https://c.tenor.com/WqgpWEgjuXwAAAAM/%D0%B2%D1%8B%D0%B4%D1%80%D0%B0-%D0%B5%D1%81%D1%82.gif',
+        'https://c.tenor.com/o48DqnL42T4AAAAM/otter-sleep.gif',
+        'https://c.tenor.com/2tFguakqSbkAAAAM/funny-animals-good-morning.gif',
+        'https://c.tenor.com/wq2aBEsmoesAAAAC/otter-otterly.gif',
+        'https://c.tenor.com/G_cJy4aSLfsAAAAd/shook-otter.gif',
+        'https://c.tenor.com/LLmLgVVQoE8AAAAC/otter-love-hold-hand.gif',
+        'https://c.tenor.com/Fiw6K-qWN9UAAAAd/otter.gif',
+        'https://c.tenor.com/EKlPRdcuoccAAAAC/otter-cute.gif'
     ]
 
     EXCLUDE_LIST = [
