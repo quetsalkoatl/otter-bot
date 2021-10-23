@@ -33,7 +33,7 @@ class OtterClient(discord.Client):
         await ctx.send(embed=embed, reference=ctx.message)
 
     async def on_message(self, message):
-        if message.content.lower().startsWith('botter'):
+        if message.content.lower().startswith('botter'):
             return
         l_msg = message.content.lower()
         if 'other' in l_msg:
