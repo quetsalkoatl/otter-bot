@@ -1,0 +1,19 @@
+[Unit]
+Description=%I bOtter
+After=multi-user.target
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/home/moritz/botter/otter_bot
+ExecStart=/usr/bin/python3 /home/moritz/botter/otter_bot/otter_bot.py
+User=user
+Group=group
+Type=idle
+Restart=always
+RestartSec=15
+RestartPreventExitStatus=0
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target

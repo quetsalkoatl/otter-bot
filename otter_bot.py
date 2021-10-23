@@ -2,11 +2,14 @@ import random
 import discord
 import os
 import re
+from discord.ext import commands
 from dotenv import load_dotenv
 
 
 class OtterClient(discord.Client):
+
     OTTER_EMOJI = '🦦'
+    OTTER_DANCE = '<:OtterDance:892768067652841472>'
 
     # add more links to otter gifs to this list
     OTTER_LIST = [
@@ -18,17 +21,37 @@ class OtterClient(discord.Client):
         'https://media4.giphy.com/media/26vUGO8U52XTg6vfO/giphy.gif'
     ]
 
+    EXCLUDE_LIST = [
+        'mother'
+    ]
+
+    bot = commands.Bot(command_prefix='botter')
+
+    @bot.command()
+    async def info(self, ctx, *args):
+        embed = self.embed('Hello', f"Hello. I'm the otter bot {self.OTTER_DANCE}", random.choice(self.OTTER_LIST))
+        await ctx.send(embed=embed, reference=ctx.message)
+
     async def on_message(self, message):
-        # don't reply to own messages
-        if message.author == self.user:
+        if message.content.lower().startsWith('botter'):
             return
-        if 'other' in message.content.lower():
+        l_msg = message.content.lower()
+        if 'other' in l_msg:
+            for ex in self.EXCLUDE_LIST:
+                if ex in l_msg:
+                    return
             # fancy regex substitution to replace 'other' with 'otter' ignoring case
             response = re.sub(r'((\w*)other(\w*))', r'~~\1~~ \2otter\3', message.content, flags=re.IGNORECASE)
-            embed = discord.Embed(title='Sorry to correct you', description=response)
-            embed.set_image(url=random.choice(self.OTTER_LIST))
+            embed = self.embed('Sorry to correct you', response, random.choice(self.OTTER_LIST))
             await message.add_reaction(self.OTTER_EMOJI)
             await message.channel.send(embed=embed, reference=message)
+
+    def embed(self, title, description, image_url=None):
+        embed = discord.Embed(title=title, description=description)
+        if image_url is not None:
+            embed.set_image(url=image_url)
+        embed.set_image(url=random.choice(self.OTTER_LIST))
+        return embed
 
 
 def main():
