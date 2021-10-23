@@ -41,7 +41,9 @@ class OtterClient(discord.Client):
         'https://c.tenor.com/G_cJy4aSLfsAAAAd/shook-otter.gif',
         'https://c.tenor.com/LLmLgVVQoE8AAAAC/otter-love-hold-hand.gif',
         'https://c.tenor.com/Fiw6K-qWN9UAAAAd/otter.gif',
-        'https://c.tenor.com/EKlPRdcuoccAAAAC/otter-cute.gif'
+        'https://c.tenor.com/EKlPRdcuoccAAAAC/otter-cute.gif',
+        'https://gifimage.net/wp-content/uploads/2017/06/otter-gif-5.gif',
+        'https://media4.giphy.com/media/26vUGO8U52XTg6vfO/giphy.gif'
     ]
 
     EXCLUDE_LIST = [
