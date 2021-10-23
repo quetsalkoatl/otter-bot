@@ -5,8 +5,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-WorkingDirectory=/home/{user}/botter/otter_bot
-ExecStart=/bin/bash -c "/usr/bin/python3 /home/{user}/botter/otter_bot/otter_bot.py"
+WorkingDirectory=/home/{user}/botter/otter-bot
+ExecStart=/usr/bin/python3 /home/{user}/botter/otter-bot/otter_bot.py
 User={user}
 Group={group}
 Type=idle
