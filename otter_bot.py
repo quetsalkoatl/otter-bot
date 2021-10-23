@@ -25,17 +25,11 @@ class OtterClient(discord.Client):
         'mother'
     ]
 
-    bot = commands.Bot(command_prefix='botter')
-
-    @bot.command()
-    async def info(self, ctx, *args):
-        embed = self.embed('Hello', f"Hello. I'm the otter bot {self.OTTER_DANCE}", random.choice(self.OTTER_LIST))
-        await ctx.send(embed=embed, reference=ctx.message)
-
     async def on_message(self, message):
-        if message.content.lower().startswith('botter'):
-            return
         l_msg = message.content.lower()
+        if l_msg.startswith('botter'):
+            await self.commands(l_msg[6:].strip(), message)
+            return
         if 'other' in l_msg:
             for ex in self.EXCLUDE_LIST:
                 if ex in l_msg:
@@ -46,11 +40,21 @@ class OtterClient(discord.Client):
             await message.add_reaction(self.OTTER_EMOJI)
             await message.channel.send(embed=embed, reference=message)
 
-    def embed(self, title, description, image_url=None):
+    async def commands(self, content, message):
+        if 'info' in content:
+            await self.info(message)
+        else:
+            await self.info(message)
+
+    async def info(self, message):
+        embed = self.embed('Hello', f"Hello. I'm the otter bot {self.OTTER_DANCE}")
+        await message.channel.send(embed=embed, reference=message)
+
+    @staticmethod
+    def embed(title, description, image_url=None):
         embed = discord.Embed(title=title, description=description)
         if image_url is not None:
             embed.set_image(url=image_url)
-        embed.set_image(url=random.choice(self.OTTER_LIST))
         return embed
 
 
