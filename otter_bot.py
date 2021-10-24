@@ -50,20 +50,32 @@ class OtterClient(discord.Client):
         'mother'
     ]
 
+    EXCLUDE_CHANNELS = [
+        'bts-kpop'
+    ]
+
     async def on_message(self, message):
         l_msg = message.content.lower()
         if l_msg.startswith('botter'):
             await self.commands(l_msg[6:].strip(), message)
             return
+
         if 'other' in l_msg:
             for ex in self.EXCLUDE_LIST:
                 if ex in l_msg:
                     return
             # fancy regex substitution to replace 'other' with 'otter' ignoring case
             response = re.sub(r'((\w*)other(\w*))', r'~~\1~~ \2otter\3', message.content, flags=re.IGNORECASE)
-            embed = self.embed('Sorry to correct you', response, random.choice(self.OTTER_LIST))
-            await message.add_reaction(self.OTTER_EMOJI)
-            await message.channel.send(embed=embed, reference=message)
+            await self.send_embed('Sorry to correct you', response, message, random.choice(self.OTTER_LIST))
+            return
+
+        if 'otter' in l_msg.replace(' ', ''):
+            matches = re.findall(r'o *t *t *e *r', l_msg, flags=re.IGNORECASE)
+            for match in matches:
+                if len(match) > 5:
+                    response = re.sub(r'(\w*)(o *t *t *e *r)(\w*)', r'\1**\2**\3', message.content, flags=re.IGNORECASE)
+                    await self.send_embed('Wooo! You found me!', response, message, random.choice(self.OTTER_LIST))
+                    return
 
     async def commands(self, content, message):
         if 'info' in content:
@@ -75,13 +87,20 @@ class OtterClient(discord.Client):
         embed = self.embed('Hello', f"Hello. I'm the otter bot {self.OTTER_DANCE}")
         await message.channel.send(embed=embed, reference=message)
 
+    async def send_embed(self, title, description, message, image_url=None):
+        for ch in self.EXCLUDE_CHANNELS:
+            if ch in message.channel.name:
+                return
+        embed = self.embed(title, description, image_url)
+        await message.add_reaction(self.OTTER_EMOJI)
+        await message.channel.send(embed=embed, reference=message)
+
     @staticmethod
     def embed(title, description, image_url=None):
         embed = discord.Embed(title=title, description=description)
         if image_url is not None:
             embed.set_image(url=image_url)
         return embed
-
 
 def main():
     load_dotenv()
