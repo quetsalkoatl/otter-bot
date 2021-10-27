@@ -51,7 +51,7 @@ class OtterClient(discord.Client):
     ]
 
     EXCLUDE_CHANNELS = [
-        'bts-kpop'
+        'live-reaction-request'
     ]
 
     async def on_message(self, message):
