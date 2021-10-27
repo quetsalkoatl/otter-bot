@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 
 class OtterClient(discord.Client):
-
     OTTER_EMOJI = '🦦'
     OTTER_DANCE = '<:OtterDance:892768067652841472>'
 
@@ -51,13 +50,29 @@ class OtterClient(discord.Client):
     ]
 
     EXCLUDE_CHANNELS = [
-        'live-reaction-request'
+        651962874956087302,  # welcome
+        651962893474070528,  # rules
+        651962914739060748,  # announcements
+        824285620972945428,  # live-reaction-request
+        877731529751683073,  # custom-reactions
+        882695801887936572,  # non-music-reaction-suggestions
+        661629181913989163   # double-takes
+    ]
+
+    EXCLUDE_CATEGORIES = [
+        664879021745635333,  # staff
+        652609720238211103,  # destiny updates
+        663311896304418825   # giveaways
     ]
 
     async def on_message(self, message):
         l_msg = message.content.lower()
         if l_msg.startswith('botter'):
             await self.commands(l_msg[6:].strip(), message)
+            return
+
+        category = message.channel.category
+        if category is not None and category.id in self.EXCLUDE_CATEGORIES:
             return
 
         if 'other' in l_msg:
@@ -88,9 +103,8 @@ class OtterClient(discord.Client):
         await message.channel.send(embed=embed, reference=message)
 
     async def send_embed(self, title, description, message, image_url=None):
-        for ch in self.EXCLUDE_CHANNELS:
-            if ch in message.channel.name:
-                return
+        if message.channel.id in self.EXCLUDE_CHANNELS:
+            return
         embed = self.embed(title, description, image_url)
         await message.add_reaction(self.OTTER_EMOJI)
         await message.channel.send(embed=embed, reference=message)
@@ -101,6 +115,7 @@ class OtterClient(discord.Client):
         if image_url is not None:
             embed.set_image(url=image_url)
         return embed
+
 
 def main():
     load_dotenv()
