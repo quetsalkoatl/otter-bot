@@ -19,10 +19,11 @@ DISCORD_TOKEN=xyz
 4. (OAuth2) check "bot" scope
 5. (OAuth2) check permissions
    - "Send Messages"
-   - "Public Threads"
+   - "Create Public Threads"
    - "Send Messages in Threads"
    - "Embed Links"
    - "Attach Files"
+   - "Read Message History"
    - "Add Reactions"
 6. copy authorization URL in browser
 7. select discord server

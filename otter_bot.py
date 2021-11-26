@@ -96,8 +96,9 @@ class OtterClient(discord.Client):
     async def on_message(self, message):
         if message.author == self.user:
             return
-        if self.TEST_CHANNEL is not None and not message.channel.id == int(self.TEST_CHANNEL):
-            return
+        if self.TEST_CHANNEL is not None:
+            if not message.channel.id == int(self.TEST_CHANNEL):
+                return
         l_msg = message.content.lower()
 
         if l_msg.startswith('botter'):
@@ -129,7 +130,11 @@ class OtterClient(discord.Client):
 
     async def greet(self, message):
         self.add_cache(message.author.id)
+        first = True
         async for msg in message.channel.history():
+            if first:
+                first = False
+                continue
             if msg.author.id == message.author.id:
                 return
         await self.send_embed("Welcome", f"You are an otter now! {self.OTTER_EMOJI}", message,
