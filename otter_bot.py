@@ -50,6 +50,12 @@ class OtterClient(discord.Client):
         'https://c.tenor.com/AV2JwtXcUJwAAAAd/otter-roll-otter.gif'
     ]
 
+    HELLO_LIST = [
+        'https://c.tenor.com/pFXvk6IrPewAAAAC/nat-geo-otter.gif',
+        'https://c.tenor.com/DahI0n9OSCkAAAAC/hello-from-the-other-side.gif',
+        'https://c.tenor.com/m8tN5hOKy60AAAAC/otter-otters.gif'
+    ]
+
     EXCLUDE_LIST = [
         'mother'
     ]
@@ -70,33 +76,47 @@ class OtterClient(discord.Client):
         663311896304418825   # giveaways
     ]
 
+    INTRODUCTION_CHANNEL = None
+
+    INTRODUCTION_CACHE = list()
+
     EXCLUDE_USERS_FILE = "blacklist.txt"
 
     EXCLUDE_USERS = set()
 
+    TEST_CHANNEL = None
+
     def __init__(self, **options):
         super().__init__(**options)
+        load_dotenv()
+        self.INTRODUCTION_CHANNEL = int(os.getenv('INTRODUCTION_CHANNEL', '651963128606883885'))
+        self.TEST_CHANNEL = os.getenv('TEST_CHANNEL')
         self.load_blacklist()
 
     async def on_message(self, message):
+        if message.author == self.user:
+            return
+        if self.TEST_CHANNEL is not None and not message.channel.id == int(self.TEST_CHANNEL):
+            return
         l_msg = message.content.lower()
+
         if l_msg.startswith('botter'):
             await self.commands(l_msg[6:].strip(), message)
-            return
-
-        if 'other' in l_msg:
+        elif 'other' in l_msg:
             if not self.is_excluded(message):
-                return await self.other_response(message, l_msg)
-
-        if 'otter' in l_msg.replace(' ', ''):
+                await self.other_response(message, l_msg)
+        elif 'otter' in l_msg.replace(' ', ''):
             if not self.is_excluded(message):
-                return await self.ot_ter_response(message, l_msg)
+                await self.ot_ter_response(message, l_msg)
+
+        if message.channel.id == self.INTRODUCTION_CHANNEL and message.author.id not in self.INTRODUCTION_CACHE:
+            await self.greet(message)
 
     async def other_response(self, message, l_msg):
         for ex in self.EXCLUDE_LIST:
             if ex in l_msg:
                 return
-            # fancy regex substitution to replace 'other' with 'otter' ignoring case
+        # fancy regex substitution to replace 'other' with 'otter' ignoring case
         response = re.sub(r'((\w*)other(\w*))', r'~~\1~~ \2otter\3', message.content, flags=re.IGNORECASE)
         await self.send_embed('Sorry to correct you', response, message, random.choice(self.OTTER_LIST))
 
@@ -106,6 +126,14 @@ class OtterClient(discord.Client):
             if len(match) > 5:
                 response = re.sub(r'(\w*)(o *t *t *e *r)(\w*)', r'\1**\2**\3', message.content, flags=re.IGNORECASE)
                 await self.send_embed('Wooo! You found me!', response, message, random.choice(self.OTTER_LIST))
+
+    async def greet(self, message):
+        self.add_cache(message.author.id)
+        async for msg in message.channel.history():
+            if msg.author.id == message.author.id:
+                return
+        await self.send_embed("Welcome", f"You are an otter now! {self.OTTER_EMOJI}", message,
+                              random.choice(self.HELLO_LIST), None)
 
     async def commands(self, content, message):
         if content in ["enable", "on", "notice", "notice me"]:
@@ -143,6 +171,13 @@ class OtterClient(discord.Client):
         self.write_blacklist()
         embed = self.embed('Bye', f"I'll ignore you until you decide otterwise. 👋\n", footer=self.NOTICE_FOOTER)
         await message.channel.send(embed=embed, reference=message)
+
+    def add_cache(self, user_id):
+        if user_id in self.INTRODUCTION_CACHE:
+            self.INTRODUCTION_CACHE.remove(user_id)
+        self.INTRODUCTION_CACHE.insert(0, user_id)
+        if len(self.INTRODUCTION_CACHE) > 50:
+            self.INTRODUCTION_CACHE = self.INTRODUCTION_CACHE[0:50]
 
     async def send_embed(self, title, description, message, image_url=None, footer=IGNORE_FOOTER):
         embed = self.embed(title, description, image_url, footer)
