@@ -110,7 +110,7 @@ class OtterClient(discord.Client):
             if not self.is_excluded(message):
                 await self.ot_ter_response(message, l_msg)
 
-        if message.channel.id == self.INTRODUCTION_CHANNEL and message.author.id not in self.INTRODUCTION_CACHE:
+        if message.channel.id == self.INTRODUCTION_CHANNEL:
             await self.greet(message)
 
     async def other_response(self, message, l_msg):
@@ -129,16 +129,17 @@ class OtterClient(discord.Client):
                 await self.send_embed('Wooo! You found me!', response, message, random.choice(self.OTTER_LIST))
 
     async def greet(self, message):
+        if message.author.id not in self.INTRODUCTION_CACHE:
+            first = True
+            async for msg in message.channel.history():
+                if first:
+                    first = False
+                    continue
+                if msg.author.id == message.author.id:
+                    return
+            await self.send_embed("Welcome", f"You are an otter now! {self.OTTER_EMOJI}", message,
+                                  random.choice(self.HELLO_LIST), None)
         self.add_cache(message.author.id)
-        first = True
-        async for msg in message.channel.history():
-            if first:
-                first = False
-                continue
-            if msg.author.id == message.author.id:
-                return
-        await self.send_embed("Welcome", f"You are an otter now! {self.OTTER_EMOJI}", message,
-                              random.choice(self.HELLO_LIST), None)
 
     async def commands(self, content, message):
         if content in ["enable", "on", "notice", "notice me"]:
